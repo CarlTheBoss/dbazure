@@ -36,9 +36,10 @@ def procesar_comando(query):
         respuesta_voz = respuesta_html
     elif "youtube" in query:
         song = query.replace("youtube", "").strip()
-        pywhatkit.playonyt(song)
-        respuesta_html = f"Reproduciendo '{song}' en YouTube."
-        respuesta_voz = respuesta_html
+        # pywhatkit.playonyt(song) # No se puede usar en el servidor
+        search_url = f"https://www.youtube.com/results?search_query={song.replace(' ', '+')}"
+        respuesta_html = f'No puedo reproducir videos directamente, pero aquí tienes un enlace para buscar "{song}" en YouTube: <a href="{search_url}" target="_blank">Buscar en YouTube</a>'
+        respuesta_voz = f'He preparado un enlace de búsqueda en YouTube para {song}.'
     elif "hora" in query or "tiempo" in query:
         strTime = datetime.datetime.now().strftime("%H:%M:%S")
         respuesta_html = f"La hora es {strTime}"
@@ -48,28 +49,11 @@ def procesar_comando(query):
         respuesta_html = f"La fecha de hoy es {strFecha}"
         respuesta_voz = respuesta_html
     elif "escribir" in query:
-        texto_a_escribir = query.replace("escribir", "").strip()
-        try:
-            if not os.path.exists('static'):
-                os.makedirs('static')
-            ruta_imagen = "static/handwriting.png"
-            pywhatkit.text_to_handwriting(texto_a_escribir, save_to=ruta_imagen)
-            respuesta_html = f'<p>Texto "{texto_a_escribir}" convertido a escritura a mano:</p><img src="/{ruta_imagen}" alt="Texto a mano">'
-            respuesta_voz = f'He convertido el texto "{texto_a_escribir}" a escritura a mano.'
-        except Exception as e:
-            respuesta_html = f"Error al convertir texto a escritura a mano: {e}"
-            respuesta_voz = respuesta_html
+        respuesta_html = "Lo siento, la función de escribir a mano no está disponible en la versión web desplegada."
+        respuesta_voz = respuesta_html
     elif "mensaje" in query:
-        try:
-            partes = query.split()
-            numero = partes[2]
-            mensaje = " ".join(partes[3:])
-            pywhatkit.sendwhatmsg_instantly(f"+{numero}", mensaje)
-            respuesta_html = f"Mensaje enviado a {numero}."
-            respuesta_voz = respuesta_html
-        except Exception as e:
-            respuesta_html = f"No pude enviar el mensaje. Error: {e}"
-            respuesta_voz = respuesta_html
+        respuesta_html = "Lo siento, no puedo enviar mensajes de WhatsApp desde el servidor."
+        respuesta_voz = respuesta_html
     elif "chiste" in query:
         conn = get_db_connection()
         if conn:

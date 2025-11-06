@@ -1,5 +1,7 @@
 Flask
-wikipedia
-pywhatkit
+gunicorn
 pyodbc
+pywhatkit
+python-dotenv
 textblob
+wikipedia
