@@ -2,7 +2,6 @@ import datetime
 import wikipedia
 import webbrowser
 import os
-import pywhatkit
 from textblob import TextBlob
 from core.database import get_db_connection
 

@@ -1,7 +1,6 @@
 Flask
 gunicorn
 pyodbc
-pywhatkit
 python-dotenv
 textblob
 wikipedia
